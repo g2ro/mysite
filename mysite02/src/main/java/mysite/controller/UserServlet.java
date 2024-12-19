@@ -16,6 +16,7 @@ import mysite.controller.action.user.JoinFormAction;
 import mysite.controller.action.user.JoinSuccessAction;
 import mysite.controller.action.user.LoginAction;
 import mysite.controller.action.user.LoginFormAction;
+import mysite.controller.action.user.UpdateAction;
 import mysite.controller.action.user.UpdateFormAction;
 import mysite.controller.action.user.logoutAction;
 import mysite.dao.UserDao;
@@ -33,7 +34,8 @@ public class UserServlet extends ActionServlet {
 			"loginform", new LoginFormAction(),
 			"login", new LoginAction(),
 			"logout", new logoutAction(),
-			"updateform", new UpdateFormAction()
+			"updateform", new UpdateFormAction(),
+			"update", new UpdateAction()
 			);
 	
 	@Override

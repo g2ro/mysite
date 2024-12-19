@@ -1,6 +1,7 @@
 package mysite.vo;
 
 public class UserVo {
+
 	private Long id;
 	private String name;
 	private String email;
@@ -37,5 +38,9 @@ public class UserVo {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-	
+	@Override
+	public String toString() {
+		return "UserVo [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", gender="
+				+ gender + "]";
+	}
 }
