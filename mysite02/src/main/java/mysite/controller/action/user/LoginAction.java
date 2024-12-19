@@ -6,6 +6,7 @@ import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import mysite.controller.ActionServlet.Action;
 import mysite.dao.UserDao;
 import mysite.vo.UserVo;
@@ -33,7 +34,13 @@ public class LoginAction implements Action {
 			
 			return;
 		} 
-		// 로그인 처
+		// 로그인 처리
+		HttpSession session = request.getSession(true);//true을 넣으면 없다면 만들어 달라는 의미 
+		// cookie를 session manger에게 요청하고 없다면 제작하고 그런 과정들이 해당 함수로 진행됨
+		// getSession을 통해 로그인과정 확인해보기
+		session.setAttribute("authUser", vo);
+		
+		response.sendRedirect(request.getContextPath());
 	}
 
 }
