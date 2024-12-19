@@ -21,5 +21,12 @@ ENGINE = InnoDB;
 
 desc user;
 
-INSERT INTO user
-VALUES(null, "김길호", "kilho603@naver.com", "1234", "male", now());
+INSERT INTO user (`id`, `name`, `email`, `password`, `gender`, `join_date`) 
+VALUES (NULL, '홍길동', 'hong@example.com', 'password123', 'male', DATE_FORMAT(NOW(), '%y-%m-%d'));
+
+SELECT * FROM user;
+SELECT * FROM guestbook;
+Drop table user;
+
+-- Login
+SELECT id, name FROM user WHERE email= 'dooly@gmail.com' AND password = '1234';

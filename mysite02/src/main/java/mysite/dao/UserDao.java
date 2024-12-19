@@ -3,7 +3,10 @@ package mysite.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import javax.naming.spi.DirStateFactory.Result;
 
 import mysite.vo.UserVo;
 
@@ -27,7 +30,34 @@ public class UserDao {
 		return count;
 
 	}
+	
+	public UserVo findByEmailAndPassword(String email, String password) {
+		UserVo userVo = null;
+		try (Connection conn = getConnection();
+				PreparedStatement pstmt = conn.prepareStatement("SELECT id, name FROM user WHERE email= ? AND password = ?");
+				){
+			pstmt.setString(1, email);
+			pstmt.setString(2, password);
+			
 
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()) {
+				Long id = rs.getLong(1);
+				String name = rs.getString(2);
+				
+				userVo = new UserVo();
+				userVo.setId(id);
+				userVo.setName(name);
+			}
+			
+			rs.close();
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
+		return userVo;
+		
+	}
+	
 	private Connection getConnection() throws SQLException {
 		Connection conn = null;
 
@@ -43,4 +73,5 @@ public class UserDao {
 		return conn;
 
 	}
+
 }

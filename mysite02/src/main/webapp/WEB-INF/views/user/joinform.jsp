@@ -8,8 +8,7 @@
 </head>
 <body>
 	<div id="container">
-		<link href="<%=request.getContextPath() %>/assets/css/main.css"
-	rel="stylesheet" type="text/css">
+	<jsp:include page="/WEB-INF/views/includes/header.jsp"/>
 		<div id="content">
 			<div id="user">
 

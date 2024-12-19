@@ -14,6 +14,8 @@ import mysite.controller.action.main.MainAction;
 import mysite.controller.action.user.JoinAction;
 import mysite.controller.action.user.JoinFormAction;
 import mysite.controller.action.user.JoinSuccessAction;
+import mysite.controller.action.user.LoginAction;
+import mysite.controller.action.user.LoginFormAction;
 import mysite.dao.UserDao;
 import mysite.vo.UserVo;
 
@@ -25,7 +27,9 @@ public class UserServlet extends ActionServlet {
 	private Map<String, Action> mapAction = Map.of(
 			"joinform", new JoinFormAction(),
 			"join" , new JoinAction(),
-			"joinsuccess", new JoinSuccessAction()
+			"joinsuccess", new JoinSuccessAction(),
+			"loginform", new LoginFormAction(),
+			"login", new LoginAction()
 			);
 	
 	@Override
