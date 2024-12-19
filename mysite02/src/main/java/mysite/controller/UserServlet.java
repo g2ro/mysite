@@ -1,6 +1,7 @@
 package mysite.controller;
 
 import java.io.IOException;
+import java.util.Map;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -8,14 +9,43 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import mysite.controller.ActionServlet.Action;
+import mysite.controller.action.main.MainAction;
+import mysite.controller.action.user.JoinAction;
+import mysite.controller.action.user.JoinFormAction;
+import mysite.controller.action.user.JoinSuccessAction;
 import mysite.dao.UserDao;
 import mysite.vo.UserVo;
 
 
 @WebServlet("/user")
-public class UserServlet extends HttpServlet {
+public class UserServlet extends ActionServlet {
 	private static final long serialVersionUID = 1L;
-
+	
+	private Map<String, Action> mapAction = Map.of(
+			"joinform", new JoinFormAction(),
+			"join" , new JoinAction(),
+			"joinsuccess", new JoinSuccessAction()
+			);
+	
+	@Override
+	protected Action getAction(String actionName) {
+		return mapAction.getOrDefault(actionName, new MainAction());
+		
+//		Action action = null;
+		
+//		if("joinform".equals(action)) {
+//			action = new JoinFormAction();
+//		} else if("join".equals(action)){
+//			action = new JoinAction();
+//		} else { // 정의하지 않은 입력이 들어왔을 경우 error처리 혹은 main으로 다시 보냄
+//			action = new MainAction();
+//		}
+		
+//		return action
+	}
+	
+	/*
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		String action = request.getParameter("a");
@@ -46,10 +76,5 @@ public class UserServlet extends HttpServlet {
 			rd.forward(request, response);
 		}
 	}
-
-	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
-	}
-
+	*/
 }
