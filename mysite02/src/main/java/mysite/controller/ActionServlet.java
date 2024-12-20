@@ -15,7 +15,7 @@ public abstract class ActionServlet extends HttpServlet {
 	
 	// operation
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
+		// request.setCharacterEncoding("utf-8");
 		Optional<String> optionalActionName = Optional.ofNullable(request.getParameter("a")); // action이 null인 경우 조치
 				
 //		Action action = getAction(optionalActionName.isEmpty() ? "" : optionalActionName.get());
