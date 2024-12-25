@@ -27,6 +27,3 @@ VALUES (NULL, '홍길동', 'hong@example.com', 'password123', 'male', DATE_FORMA
 SELECT * FROM user;
 SELECT * FROM guestbook;
 Drop table user;
-
--- Login
-SELECT id, name FROM user WHERE email= 'dooly@gmail.com' AND password = '1234';

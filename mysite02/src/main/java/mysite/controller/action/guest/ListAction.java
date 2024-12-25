@@ -19,8 +19,6 @@ public class ListAction implements Action {
 		request.setAttribute("list", list);
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/guestbook/list.jsp");
 		rd.forward(request, response);
-
-
 	}
 
 }
