@@ -14,11 +14,10 @@
         <c:import url="/WEB-INF/views/includes/header.jsp"/>
         <div id="content">
             <div id="board">
-                <form id="search_form" action="" method="post">
+                <form id="search_form" action="${pageContext.request.contextPath }/board" method="post">
                     <input type="text" id="kwd" name="kwd" value="">
                     <input type="submit" value="찾기">
                 </form>
-
                 <table class="tbl-ex">
                     <tr>
                         <th>번호</th>
@@ -55,22 +54,22 @@
                 </table>
                 
                 <div class="pager">
-                    <ul>
-                        <c:if test="${currentPage > 1}">
-                            <li><a href="?p=${currentPage - 1}">◀</a></li>
-                        </c:if>
-                        
-                        <c:forEach begin="${startPage}" end="${endPage}" var="i">
-                            <li class="${i == currentPage ? 'selected' : ''}">
-                                <a href="?p=${i}">${i}</a>
-                            </li>
-                        </c:forEach>
-                        
-                        <c:if test="${currentPage < totalPage}">
-                            <li><a href="?p=${currentPage + 1}">▶</a></li>
-                        </c:if>
-                    </ul>
-                </div>                
+				    <ul>
+				        <c:if test="${currentPage > 1}">
+				            <li><a href="?p=${currentPage - 1}&kwd=${kwd}">◀</a></li>
+				        </c:if>
+				        
+				        <c:forEach begin="${startPage}" end="${endPage}" var="i">
+				            <li class="${i == currentPage ? 'selected' : ''}">
+				                <a href="?p=${i}&kwd=${kwd}">${i}</a>
+				            </li>
+				        </c:forEach>
+				        
+				        <c:if test="${currentPage < totalPage}">
+				            <li><a href="?p=${currentPage + 1}&kwd=${kwd}">▶</a></li>
+				        </c:if>
+				    </ul>
+				</div>                
                 
                 <c:if test="${not empty sessionScope.authUser}">
 				    <div class="bottom">

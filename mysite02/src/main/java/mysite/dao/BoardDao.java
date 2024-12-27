@@ -261,6 +261,80 @@ public class BoardDao {
 		}
 		return count;
 	}
+	
+	public List<BoardVo> findByPageWithSearch(int currentPage, int pageSize, String keyword) {
+	    List<BoardVo> result = new ArrayList<>();
+	    ResultSet rs = null;
+	    try (
+	            Connection conn = getConnection();
+	            PreparedStatement pstmt = conn.prepareStatement(
+	                    "SELECT b.id, title, name, hit, reg_date, g_no, o_no, depth, b.user_id " +
+	                    "FROM board b " +
+	                    "    JOIN user u ON (b.user_id = u.id) " +
+	                    "WHERE title LIKE ? " + // 제목 검색 조건 추가
+	                    "ORDER BY g_no DESC, o_no ASC " +
+	                    "LIMIT ? OFFSET ?");
+	    ) {
+	        pstmt.setString(1, "%" + keyword + "%"); // 제목 검색어
+	        pstmt.setInt(2, pageSize);
+	        pstmt.setInt(3, (currentPage - 1) * pageSize);
+	        
+	        rs = pstmt.executeQuery();
+	        while (rs.next()) {
+	            Long id = rs.getLong(1);
+	            String title = rs.getString(2);
+	            String name = rs.getString(3);
+	            int hit = rs.getInt(4);
+	            String reg_date = rs.getString(5);
+	            int gNo = rs.getInt(6);
+	            int oNo = rs.getInt(7);
+	            int depth = rs.getInt(8);
+	            Long userId = rs.getLong(9);
+	            
+	            BoardVo vo = new BoardVo();
+	            vo.setId(id);
+	            vo.setTitle(title);
+	            vo.setUserName(name);
+	            vo.setHit(hit);
+	            vo.setReg_date(reg_date);
+	            vo.setG_no(gNo);
+	            vo.setO_no(oNo);
+	            vo.setDepth(depth);
+	            vo.setUserId(userId);
+	            
+	            result.add(vo);
+	        }
+	    } catch (SQLException e) {
+	        System.out.println("findByPageWithSearch error : " + e);
+	    }
+	    return result;
+	}
+
+	public int findByPageWithSearchCount(String keyword) {
+	    int count = 0;
+	    ResultSet rs = null;
+	    try (
+	            Connection conn = getConnection();
+	            PreparedStatement pstmt = conn.prepareStatement(
+	                    "SELECT COUNT(*) " +
+	                    "FROM board b " +
+	                    "    JOIN user u ON (b.user_id = u.id) " +
+	                    "WHERE title LIKE ?"
+	            );
+	    ) {
+	        pstmt.setString(1, "%" + keyword + "%"); // 제목 검색어
+	        
+	        rs = pstmt.executeQuery();
+	        if (rs.next()) {
+	            count = rs.getInt(1); // 결과의 첫 번째 컬럼에서 개수를 가져옵니다.
+	        }
+	    } catch (SQLException e) {
+	        System.out.println("findByPageWithSearchCount error : " + e);
+	    }
+	    return count;
+	}
+
+	
 	private Connection getConnection() throws SQLException {
 		Connection conn = null;
 

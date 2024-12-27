@@ -18,6 +18,8 @@ public class BoardListAction implements Action {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String pageParam = request.getParameter("p");
+		
+		
 		int currentPage = 0; // 현재 페이지
 		if(pageParam != null) {
 			currentPage = Integer.parseInt(pageParam);
@@ -25,7 +27,18 @@ public class BoardListAction implements Action {
 			currentPage = 1;
 		}
 		int pageSize = 5; // 한 페이지당 출력된 게시글 갯수
-		int listSize = new BoardDao().findSize(); //전체 게시글 수
+		int listSize = 0;
+		
+		String kwd = request.getParameter("kwd");
+		List<BoardVo> list = null;
+		if(kwd == null) {
+			list = new BoardDao().findByPage(currentPage, pageSize);
+			listSize = new BoardDao().findSize(); //전체 게시글 수
+		}else {
+			list = new BoardDao().findByPageWithSearch(currentPage, pageSize, kwd);
+			listSize = new BoardDao().findByPageWithSearchCount(kwd); //전체 게시글 수
+		}
+		
 		int totalPage = (listSize > 0) ? (int) Math.ceil((double) listSize / pageSize) : 1;
 		int pageBlock = 5; // 몇개의 페이지를 보여줄지, 5일경우 1,2,3,4,5 총 5개의 page를 보여준다.
 		
@@ -46,11 +59,7 @@ public class BoardListAction implements Action {
 		    endPage = totalPage;
 		    startPage = Math.max(1, totalPage - pageBlock + 1); // startPage는 1 이상
 		}
-
 		
-		
-		
-		List<BoardVo> list = new BoardDao().findByPage(currentPage, pageSize);
 		
 		 // 5. JSP로 데이터 전달
 		request.setAttribute("list", list);
@@ -60,6 +69,7 @@ public class BoardListAction implements Action {
 		request.setAttribute("totalPage", totalPage);
 		request.setAttribute("listSize", listSize);
 		request.setAttribute("pageSize", pageSize);
+		request.setAttribute("kwd", kwd);
 		
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/board/list.jsp");
 		rd.forward(request, response);

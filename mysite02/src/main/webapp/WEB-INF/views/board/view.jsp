@@ -33,12 +33,12 @@
 					</tr>
 				</table>
 				<div class="bottom">
-					<form class="board-form" method="post"
+					<form id="new_book" class="board-form" method="post"
 						action="${pageContext.request.contextPath }/board">
 						<input type="submit" value="글목록">
 					</form>
 					<c:if test="${not empty sessionScope.authUser && sessionScope.authUser.id == Bvo.userId }">
-						<form class="board-form" method="post" action="${pageContext.request.contextPath }/board">
+						<form id="new_book" class="board-form" method="post" action="${pageContext.request.contextPath }/board">
 							<input type="hidden" name="a" value="modifyform">
 							 <input type="hidden" name="id" value="${Bvo.id}"> 
 							 <input type="hidden" name="userId" value="${Bvo.userId}">
@@ -46,7 +46,7 @@
 						</form>
 					</c:if>
 					<c:if test="${not empty sessionScope.authUser}">
-						<form class="board-form" method="post" action="${pageContext.request.contextPath }/board">
+						<form id="new_book" class="board-form" method="post" action="${pageContext.request.contextPath }/board">
 							<input type="hidden" name="a" value="writeform"> 
 							<input type="hidden" name="id" value="${Bvo.id}"> 
 							<input type="submit" value="답글">
