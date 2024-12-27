@@ -18,6 +18,12 @@
 	   <property name="suffix" value=".jsp" />
 	</bean>
 	
+	<!-- Validator, ConversionService, MessageConverter를 자동으로 등록 -->
+	<mvc:annotation-driven/>
+	
+	<!-- DefaultServlet Handler -->
+	<mvc:default-servlet-handler/>
+	
 	<context:annotation-config />
 	<context:component-scan base-package="mysite.controller" />
 </beans>

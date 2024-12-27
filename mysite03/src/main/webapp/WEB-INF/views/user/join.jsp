@@ -15,15 +15,12 @@
 		<div id="content">
 			<div id="user">
 
-				<form id="join-form" name="joinForm" method="post" action="${pageContext.request.contextPath }/user">
-					<input type="hidden" name="a" value="update">
+				<form id="join-form" name="joinForm" method="post" action="${pageContext.request.contextPath }/user/join">
 					<label class="block-label" for="name">이름</label>
-					<%-- <input id="name" name="name" type="text" value="<%= vo.getName()%>"> --%>
-					<input id="name" name="name" type="text" value="${vo.name }">
+					<input id="name" name="name" type="text" value="">
 
 					<label class="block-label" for="email">이메일</label>
-					<%-- <h3><%=vo.getEmail() %></h3> --%>
-					<h3>${vo.email }</h3>
+					<input id="email" name="email" type="text" value="">
 					<input type="button" value="id 중복체크">
 					
 					<label class="block-label">패스워드</label>
@@ -31,22 +28,17 @@
 					
 					<fieldset>
 						<legend>성별</legend>
-						<%-- <% if("female".equals(vo.getGender())){ %> --%>
-						<c:choose>
-							<c:when test="${'female' == vo.gender }">
-								<label>여</label> <input type="radio" name="gender" value="female" checked="checked">
-								<label>남</label> <input type="radio" name="gender" value="male">
-							<%-- <% } else{ %> --%>
-						</c:when>
-						<c:otherwise>
-							<label>여</label> <input type="radio" name="gender" value="female">
-							<label>남</label> <input type="radio" name="gender" value="male" checked="checked">
-							<%-- <% } %> --%>
-						</c:otherwise>
-						</c:choose>
+						<label>여</label> <input type="radio" name="gender" value="female" checked="checked">
+						<label>남</label> <input type="radio" name="gender" value="male">
 					</fieldset>
 					
-					<input type="submit" value="수정하기">
+					<fieldset>
+						<legend>약관동의</legend>
+						<input id="agree-prov" type="checkbox" name="agreeProv" value="y">
+						<label>서비스 약관에 동의합니다.</label>
+					</fieldset>
+					
+					<input type="submit" value="가입하기">
 					
 				</form>
 			</div>
