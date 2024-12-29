@@ -6,7 +6,6 @@ import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import mysite.controller.ActionServlet.Action;
 import mysite.dao.BoardDao;
 import mysite.vo.BoardVo;
@@ -17,6 +16,9 @@ public class ViewBoard implements Action {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String idStr = request.getParameter("id");
 		Long id = Long.parseLong(idStr);
+		
+		String kwd = request.getParameter("kwd");
+		request.setAttribute("kwd", kwd);
 		
 		new BoardDao().updateHit(id);
 		BoardVo Bvo = new BoardDao().findById(id);

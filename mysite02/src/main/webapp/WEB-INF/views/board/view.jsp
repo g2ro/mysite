@@ -35,6 +35,7 @@
 				<div class="bottom">
 					<form id="new_book" class="board-form" method="post"
 						action="${pageContext.request.contextPath }/board">
+						<input type="hidden" name="kwd" value="${kwd}">
 						<input type="submit" value="글목록">
 					</form>
 					<c:if test="${not empty sessionScope.authUser && sessionScope.authUser.id == Bvo.userId }">
