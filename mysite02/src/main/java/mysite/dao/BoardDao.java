@@ -189,16 +189,17 @@ public class BoardDao {
 		return count;
 	}
 	
-	public int deleteById(Long id) {
+	public int deleteById(Long id, Long UserId) {
 		int count = 0;
 		try (
 				Connection conn = getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(
 						"DELETE FROM board " +
-						"WHERE id = ?"
+						"WHERE id = ? and user_id = ?"
 						);
 				){
 			pstmt.setLong(1, id);
+			pstmt.setLong(2, UserId);
 			count = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println("deleteById error :" + e);
