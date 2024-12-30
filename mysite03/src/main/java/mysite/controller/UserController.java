@@ -5,7 +5,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import jakarta.servlet.http.HttpSession;
+import mysite.security.Auth;
+import mysite.security.AuthUser;
 import mysite.service.UserService;
 import mysite.vo.UserVo;
 
@@ -41,50 +42,40 @@ public class UserController {
 	}
 	
 	// 로그인처럼 보안과 관련된 것들은 controller 외부에서 진행하는 것이 추천됨.
-	@RequestMapping(value= "/login", method=RequestMethod.POST)
-	public String login(HttpSession session, UserVo userVo, Model model) {
-		UserVo authUser =userService.getUser(userVo.getEmail(), userVo.getPassword());
-		if(authUser == null) {
-			model.addAttribute("email", userVo.getEmail());
-			model.addAttribute("result", "fail");
-			return "user/login";
-		}
-		// login 처리
-		session.setAttribute("authUser", authUser);
-		return "redirect:/";
-	}
+//	@RequestMapping(value= "/login", method=RequestMethod.POST)
+//	public String login(HttpSession session, UserVo userVo, Model model) {
+//		UserVo authUser =userService.getUser(userVo.getEmail(), userVo.getPassword());
+//		if(authUser == null) {
+//			model.addAttribute("email", userVo.getEmail());
+//			model.addAttribute("result", "fail");
+//			return "user/login";
+//		}
+//		// login 처리
+//		session.setAttribute("authUser", authUser);
+//		return "redirect:/";
+//	} // LoginInterceptor로 역할 대체
 	
 	
-	@RequestMapping("/logout")
-	public String logout(HttpSession session) {
-		session.removeAttribute("authUser");
-		session.invalidate();
-		return "redirect:/";
-	}
+//	@RequestMapping("/logout")
+//	public String logout(HttpSession session) {
+//		session.removeAttribute("authUser");
+//		session.invalidate();
+//		return "redirect:/";
+//	} // LogoutInterceptor로 역할 대
 	
 	
+	@Auth
 	@RequestMapping(value= "/update", method=RequestMethod.GET)
-	public String update(HttpSession session, Model model) {
-		// Access Control
-		UserVo authUser = (UserVo)session.getAttribute("authUser");
-		if(authUser == null) {
-			return "redirect:/";
-		}
-		
+	public String update(@AuthUser UserVo authUser, Model model) {
 		UserVo userVo = userService.getUser(authUser.getId());
 		
 		model.addAttribute("vo", userVo);
 		return "user/update";
 	}
 	
+	@Auth
 	@RequestMapping(value= "/update", method=RequestMethod.POST)
-	public String update(HttpSession session, UserVo userVo) {
-		// Access Control
-		UserVo authUser = (UserVo)session.getAttribute("authUser");
-		if(authUser == null) {
-			return "redirect:/";
-		}
-		
+	public String update(@AuthUser UserVo authUser, UserVo userVo) {
 		userVo.setId(authUser.getId());
 		userService.update(userVo);
 		

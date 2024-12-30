@@ -37,7 +37,7 @@ public class UserRepository {
 	public UserVo findByEmailAndPassword(String email, String password) {
 		UserVo userVo = null;
 		try (Connection conn = getConnection();
-				PreparedStatement pstmt = conn.prepareStatement("SELECT id, name FROM user WHERE email= ? AND password = ?");
+				PreparedStatement pstmt = conn.prepareStatement("SELECT id, name, role FROM user WHERE email= ? AND password = ?");
 				){
 			pstmt.setString(1, email);
 			pstmt.setString(2, password);
@@ -47,10 +47,12 @@ public class UserRepository {
 			if(rs.next()) {
 				Long id = rs.getLong(1);
 				String name = rs.getString(2);
+				String role = rs.getString(3);
 				
 				userVo = new UserVo();
 				userVo.setId(id);
 				userVo.setName(name);
+				userVo.setRole(role);
 			}
 			
 			rs.close();
