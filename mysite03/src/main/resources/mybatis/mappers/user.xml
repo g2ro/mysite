@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="user">
+	<insert id="insert" parameterType="uservo">
+	<![CDATA[
+		INSERT INTO user
+		VALUES (NULL, #{name}, #{email}, #{password}, #{gender}, now(), 'USER')
+	]]>
+	<selectKey keyProperty="id" resultType="Long" order="AFTER">
+		<![CDATA[
+			select last_insert_id() from dual
+		]]>
+	</selectKey>
+	</insert>
+	
+	<select id="findByEmailAndPassword" parameterType="map" resultType="uservo">
+		<![CDATA[
+			SELECT id, name, role 
+			FROM user 
+			WHERE email= #{email} AND password = #{password}
+		]]>
+	</select>
+	
+	<select id="findById" parameterType="Long" resultType="uservo">
+		<![CDATA[
+			SELECT name, email, gender 
+			FROM user 
+			WHERE id = #{id}
+		]]>
+	</select>
+<!-- 하나의 파라미터만 존재할땐 아무 변수명이나 작성해도 됨. -->
+
+	<update id="update" parameterType="uservo">
+		<choose>
+			<when test='password == ""'>
+			<![CDATA[
+				UPDATE user SET name = #{name}, gender = #{gender} WHERE id = #{id}
+			]]>
+			</when>
+			<otherwise>
+			<![CDATA[
+				UPDATE user SET name = #{name}, gender = #{gender}, password = #{password} WHERE id = #{id}
+			]]>
+			</otherwise>
+		</choose>
+		<!-- 파라미터가 객체일땐 test조건에 바로 접근할 수 있지만 파라미터가 객체가 아닐땐, _parameter를 이용하여 test를 진행한다. -->
+	</update>
+	
+</mapper>

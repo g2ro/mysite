@@ -22,12 +22,15 @@ public class UserController {
 	@RequestMapping(value= "/join", method=RequestMethod.GET)
 	public String join() {
 		return "user/join";
+		
 	}
 	
 	@RequestMapping(value= "/join", method=RequestMethod.POST)
 //	@PostMapping("/join")
 	public String join(UserVo userVo) {
+		System.out.println(userVo);
 		userService.join(userVo);
+		System.out.println(userVo);
 		return "redirect:/user/joinsuccess";
 	}
 	
