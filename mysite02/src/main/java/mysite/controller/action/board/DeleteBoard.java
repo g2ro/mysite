@@ -29,9 +29,6 @@ public class DeleteBoard implements Action {
 		
 		user = (UserVo)session.getAttribute("authUser");
 		
-		System.out.println("hello");
-		System.out.println(id);
-		System.out.println(user.getId());
 		new BoardDao().deleteById(id, user.getId());
 		response.sendRedirect(request.getContextPath() + "/board");
 	}
