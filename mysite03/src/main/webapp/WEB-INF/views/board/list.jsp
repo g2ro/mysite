@@ -42,7 +42,7 @@
 								<td>${board.reg_date }</td>
 								<c:if test="${not empty sessionScope.authUser && sessionScope.authUser.id == board.userId }">
 									<%-- <td><a href="board/delete?id=${board.id }" class="del">삭제</a></td> --%>
-									<td><a href="board/delete?id=${board.id }" class="del"><img src="${pageContext.request.contextPath }/assets/images/recycle.png">	</a></td>
+									<td><a href="board/delete?id=${board.id }" class="del"><img src="${pageContext.request.contextPath }/assets/images/recycle.png"></a></td>
 								</c:if>		
 						</tr>
 					</c:forEach>

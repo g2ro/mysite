@@ -21,8 +21,10 @@ public class BoardService {
 			boardRepository.insert(vo);
 			return;
 		}
-		boardRepository.insertReply(vo.getId(), vo.getTitle(), vo.getContents(), vo.getUserId());
-		//insertReply수정 필요
+		BoardVo prepareVo = new BoardVo();
+		prepareVo = boardRepository.insertPrepare(vo.getId());
+		boardRepository.insertUpdate(prepareVo.getG_no(), prepareVo.getO_no() + 1);
+		boardRepository.insertReply(vo.getTitle(), vo.getContents(), prepareVo.getG_no(), prepareVo.getO_no() + 1,prepareVo.getDepth() + 1,vo.getUserId());
 	}
 	
 	public BoardVo getContents(long id) {

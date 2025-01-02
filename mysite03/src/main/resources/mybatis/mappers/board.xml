@@ -89,11 +89,35 @@
 				SELECT b.id, title, name, hit, reg_date, g_no, o_no, depth, b.user_id as userId
 	            FROM board b
 	                JOIN user u ON (userId = u.id)
-	           where (title like '%${keyword}%' or contents like '%${keyword}%')
+	            where (title like '%${keyword}%' or contents like '%${keyword}%')
 	            ORDER BY g_no DESC, o_no ASC
 	            LIMIT #{pageSize} OFFSET #{offset}
 				]]>				
 			</otherwise>
 		</choose>
 	</select>
+	
+	<select id="insertPrepare" parameterType="Long" resultType="boardvo">
+	<![CDATA[
+		SELECT g_no, o_no, depth
+		FROM board
+		WHERE id = #{id}
+	]]>
+	</select>
+	
+	<update id="insertUpdate" parameterType="Map">
+	<![CDATA[
+		UPDATE board
+		SET o_no = o_no + 1
+		WHERE g_no = #{gNo} 
+			AND o_no >= #{oNo}
+	]]>
+	</update>
+	
+	<insert id="insertReply" parameterType="Map">
+	<![CDATA[
+		INSERT INTO board
+		VALUES (null, #{title}, #{contents}, 0, now(), #{gNo}, #{oNo}, #{depth}, #{userId})
+	]]>
+	</insert>
 </mapper>
