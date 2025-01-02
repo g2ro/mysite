@@ -7,46 +7,22 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import mysite.vo.BoardVo;
 
 @Repository
 public class BoardRepository {
-	
+	private SqlSession sqlSession;
+	public BoardRepository(SqlSession sqlSession) {
+		this.sqlSession = sqlSession;
+	}
 	
 	public int insert(BoardVo vo) {
-		int count = 0;
-		int gNo = -1;
-		try (
-				Connection conn =getConnection();
-				PreparedStatement pstmtGetGno = conn.prepareStatement(
-						"SELECT IFNULL(MAX(g_no), 0) AS max_g_no " +
-						"FROM board"
-						);
-				ResultSet rs = pstmtGetGno.executeQuery();
-				PreparedStatement pstmt = conn.prepareStatement(
-						"INSERT INTO board " +
-						"VALUES (null, ?, ?, 0, now(), ?, 1, 0, ?)");
-				
-
-				){
-			if(rs.next()) {
-				gNo = rs.getInt(1);
-			}
-			
-			pstmt.setString(1, vo.getTitle());
-			pstmt.setString(2, vo.getContents());
-			pstmt.setInt(3, gNo + 1);
-			pstmt.setLong(4, vo.getUserId());
-			
-			count = pstmt.executeUpdate();
-		} catch (SQLException e) {
-			System.out.println("Board INSERT error:" + e);
-		}
-		
-		return count;
+		return sqlSession.insert("board.insert", vo);
 	}
 	
 	public int findSize() {
@@ -113,145 +89,23 @@ public class BoardRepository {
 	}
 	
 	public BoardVo findById(Long id) {
-		BoardVo vo = new BoardVo();
-		ResultSet rs = null;
-		try (
-				Connection conn = getConnection();
-				PreparedStatement pstmt = conn.prepareStatement(
-						"SELECT id, title, contents, hit, reg_date, g_no, o_no, depth, user_id " +
-						"FROM board " +
-						"WHERE id = ? "
-						);
-				){
-			pstmt.setLong(1, id);
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				String title = rs.getString(2);
-				String contents = rs.getString(3);
-				int hit = rs.getInt(4);
-				String reg_date = rs.getString(5);
-				int gNo = rs.getInt(6);
-				int oNo = rs.getInt(7);
-				int depth = rs.getInt(8);
-				Long userId = rs.getLong(9);
-				
-				vo.setId(id);
-				vo.setTitle(title);
-				vo.setContents(contents);
-				vo.setHit(hit);
-				vo.setReg_date(reg_date);
-				vo.setG_no(gNo);
-				vo.setO_no(oNo);
-				vo.setDepth(depth);
-				vo.setUserId(userId);
-				
-			}
-		} catch (SQLException e) {
-			System.out.println("findbyid error :" + e);
-		}
-		return vo;
+		return sqlSession.selectOne("board.findById", id);
 	}
 	
 	public BoardVo findByIdWithUserId(Long id, Long userId) {
-		BoardVo vo = new BoardVo();
-		ResultSet rs = null;
-		try (
-				Connection conn = getConnection();
-				PreparedStatement pstmt = conn.prepareStatement(
-						"SELECT id, title, contents, hit, reg_date, g_no, o_no, depth " +
-						"FROM board " +
-						"WHERE id = ? " +
-						"AND user_id = ? "
-						);
-				){
-			pstmt.setLong(1, id);
-			pstmt.setLong(2, userId);
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				String title = rs.getString(2);
-				String contents = rs.getString(3);
-				int hit = rs.getInt(4);
-				String reg_date = rs.getString(5);
-				int gNo = rs.getInt(6);
-				int oNo = rs.getInt(7);
-				int depth = rs.getInt(8);
-				
-				
-				vo.setId(id);
-				vo.setTitle(title);
-				vo.setContents(contents);
-				vo.setHit(hit);
-				vo.setReg_date(reg_date);
-				vo.setG_no(gNo);
-				vo.setO_no(oNo);
-				vo.setDepth(depth);
-				vo.setUserId(userId);
-				
-			}
-		} catch (SQLException e) {
-			System.out.println("findbyid error :" + e);
-		}
-		return vo;
+		return sqlSession.selectOne("board.findByIdWithUserId", Map.of("id",id,"userId",userId));
 	}
 	
 	public int update(Long id, String title, String content) {
-		int count = 0;
-		try (
-				Connection conn = getConnection();
-				PreparedStatement pstmt = conn.prepareStatement(
-						"UPDATE board " +
-						"set title = ?, contents = ? " +
-						"WHERE id = ? "
-						);
-				
-				){
-			pstmt.setString(1, title);
-			pstmt.setString(2, content);
-			pstmt.setLong(3, id);
-			
-			count = pstmt.executeUpdate();
-		} catch (SQLException e) {
-			System.out.println("Board Update error :" + e);
-		}
-		return count;
+		return sqlSession.update("board.update", Map.of("title", title, "contents", content, "id", id));
 	}
 	
 	public int updateHit(Long id) {
-		int count = 0;
-		try (
-				Connection conn = getConnection();
-				PreparedStatement pstmt = conn.prepareStatement(
-						"UPDATE board " +
-						"SET hit = hit + 1 " +
-						"WHERE id = ? "
-						);
-				){
-			pstmt.setLong(1, id);
-			count = pstmt.executeUpdate();
-		} catch (SQLException e) {
-			System.out.println("updateHit error :" + e);
-		}
-		return count;
+		return sqlSession.update("board.updateHit", id);
 	}
 	
-	public int deleteById(Long id, Long UserId) {
-		int count = 0;
-		try (
-				Connection conn = getConnection();
-				PreparedStatement pstmt = conn.prepareStatement(
-						"DELETE FROM board " +
-						"WHERE id = ? and user_id = ?"
-						);
-				){
-			pstmt.setLong(1, id);
-			pstmt.setLong(2, UserId);
-			count = pstmt.executeUpdate();
-		} catch (SQLException e) {
-			System.out.println("deleteById error :" + e);
-		}
-		return count;
+	public int deleteById(Long id, Long userId) {
+		return sqlSession.delete("board.deleteById", Map.of("id", id, "userId", userId));
 	}
 	
 	public int insertReply(Long id, String title, String content, Long userId) {
@@ -311,75 +165,11 @@ public class BoardRepository {
 	}
 	
 	public List<BoardVo> findByPageWithSearch(int currentPage, int pageSize, String keyword) {
-	    List<BoardVo> result = new ArrayList<>();
-	    ResultSet rs = null;
-	    try (
-	            Connection conn = getConnection();
-	            PreparedStatement pstmt = conn.prepareStatement(
-	                    "SELECT b.id, title, name, hit, reg_date, g_no, o_no, depth, b.user_id " +
-	                    "FROM board b " +
-	                    "    JOIN user u ON (b.user_id = u.id) " +
-	                    "WHERE title LIKE ? " + // 제목 검색 조건 추가
-	                    "ORDER BY g_no DESC, o_no ASC " +
-	                    "LIMIT ? OFFSET ?");
-	    ) {
-	        pstmt.setString(1, "%" + keyword + "%"); // 제목 검색어
-	        pstmt.setInt(2, pageSize);
-	        pstmt.setInt(3, (currentPage - 1) * pageSize);
-	        
-	        rs = pstmt.executeQuery();
-	        while (rs.next()) {
-	            Long id = rs.getLong(1);
-	            String title = rs.getString(2);
-	            String name = rs.getString(3);
-	            int hit = rs.getInt(4);
-	            String reg_date = rs.getString(5);
-	            int gNo = rs.getInt(6);
-	            int oNo = rs.getInt(7);
-	            int depth = rs.getInt(8);
-	            Long userId = rs.getLong(9);
-	            
-	            BoardVo vo = new BoardVo();
-	            vo.setId(id);
-	            vo.setTitle(title);
-	            vo.setUserName(name);
-	            vo.setHit(hit);
-	            vo.setReg_date(reg_date);
-	            vo.setG_no(gNo);
-	            vo.setO_no(oNo);
-	            vo.setDepth(depth);
-	            vo.setUserId(userId);
-	            
-	            result.add(vo);
-	        }
-	    } catch (SQLException e) {
-	        System.out.println("findByPageWithSearch error : " + e);
-	    }
-	    return result;
+		return sqlSession.selectList("board.findByPageWithSearch", Map.of("keyword", keyword, "pageSize", pageSize, "offset", (currentPage - 1) * pageSize));
 	}
 
 	public int findByPageWithSearchCount(String keyword) {
-	    int count = 0;
-	    ResultSet rs = null;
-	    try (
-	            Connection conn = getConnection();
-	            PreparedStatement pstmt = conn.prepareStatement(
-	                    "SELECT COUNT(*) " +
-	                    "FROM board b " +
-	                    "    JOIN user u ON (b.user_id = u.id) " +
-	                    "WHERE title LIKE ?"
-	            );
-	    ) {
-	        pstmt.setString(1, "%" + keyword + "%"); // 제목 검색어
-	        
-	        rs = pstmt.executeQuery();
-	        if (rs.next()) {
-	            count = rs.getInt(1); // 결과의 첫 번째 컬럼에서 개수를 가져옵니다.
-	        }
-	    } catch (SQLException e) {
-	        System.out.println("findByPageWithSearchCount error : " + e);
-	    }
-	    return count;
+		return sqlSession.selectOne("board.findByPageWithSearchCount", keyword);
 	}
 
 	

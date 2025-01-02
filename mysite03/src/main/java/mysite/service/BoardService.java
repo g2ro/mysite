@@ -22,7 +22,7 @@ public class BoardService {
 			return;
 		}
 		boardRepository.insertReply(vo.getId(), vo.getTitle(), vo.getContents(), vo.getUserId());
-		
+		//insertReply수정 필요
 	}
 	
 	public BoardVo getContents(long id) {
@@ -53,7 +53,7 @@ public class BoardService {
 		}
 
 		if(kwd == null || kwd.isEmpty()) {
-			keyword = "%";
+			keyword = "";
 		}
 		
 		

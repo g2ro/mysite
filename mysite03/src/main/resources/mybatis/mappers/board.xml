@@ -2,5 +2,98 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="board">
+	<insert id="insert" parameterType="boardvo">
+	<![CDATA[
+		INSERT INTO board (id, title, contents, hit, reg_date, g_no, o_no, depth, user_id)
+		SELECT null, #{title}, #{contents}, 0, now(),
+       		IFNULL(MAX(g_no) + 1, 1), 1, 0, #{userId}
+			FROM board
+	]]>
+	<selectKey keyProperty="id" resultType="Long" order="AFTER">
+		<![CDATA[
+			select last_insert_id() from dual
+		]]>
+	</selectKey>
+	</insert>
 	
+	
+	<select id="findById" parameterType="Long" resultType="boardvo">
+	<![CDATA[
+		SELECT id, title, contents, hit, reg_date, g_no, o_no, depth, user_id as userId
+		FROM board
+		WHERE id = #{id}
+	]]>
+	</select>
+	<update id="updateHit" parameterType="Long">
+	<![CDATA[
+		UPDATE board
+		SET hit = hit + 1
+		WHERE id = #{id}
+	]]>
+	</update>
+	
+	<select id="findByIdWithUserId" parameterType="map" resultType="boardvo">
+	<![CDATA[
+		SELECT id, title, contents, hit, reg_date, g_no, o_no, depth
+		FROM board
+		WHERE id = #{id} 
+		AND user_id = #{userId} 
+	]]>
+	</select>
+	
+	<update id="update" parameterType="map">
+	<![CDATA[
+		UPDATE board
+		set title = #{title}, contents = #{contents}
+		WHERE id = #{id}
+	]]>
+	</update>
+	
+	<delete id="deleteById" parameterType="map">
+	<![CDATA[
+		DELETE FROM board
+		WHERE id = #{id} and user_id = #{userId}
+	]]>
+	</delete>
+	
+	<select id="findByPageWithSearchCount" parameterType="string" resultType='int'>
+		<choose>
+			<when test="_parameter == null or _parameter == ''">
+				<![CDATA[
+				select count(*) from board
+				]]>				
+			</when>
+			<otherwise>
+				<![CDATA[
+				select count(*)
+				  from board
+				 where (title like '%${_parameter }%' or contents like '%${_parameter  }%')
+				]]>				
+			</otherwise>
+		</choose>
+	</select>
+		
+	<select id="findByPageWithSearch" parameterType="map" resultType="boardvo">
+		<choose>
+			<when test="keyword == null or keyword == ''">
+				<![CDATA[
+				SELECT b.id, title, name, hit, reg_date, g_no, o_no, depth, b.user_id as userId
+	            FROM board b
+	                JOIN user u ON (b.user_id = u.id)
+	            ORDER BY g_no DESC, o_no ASC
+	            LIMIT #{pageSize} OFFSET #{offset}
+				]]>				
+			</when>
+			<otherwise>
+				<![CDATA[
+				SELECT b.id, title, name, hit, reg_date, g_no, o_no, depth, b.user_id as userId
+	            FROM board b
+	                JOIN user u ON (userId = u.id)
+	           where (title like '%${keyword}%' or contents like '%${keyword}%')
+	            ORDER BY g_no DESC, o_no ASC
+	            LIMIT #{pageSize} OFFSET #{offset}
+				]]>				
+			</otherwise>
+		</choose>
+	</select>
 </mapper>
