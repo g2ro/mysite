@@ -28,6 +28,7 @@ public class UserRepository {
 	}
 	public int insert(UserVo vo) {
 		return sqlSession.insert("user.insert", vo);
+		
 	}
 	
 	public UserVo findByEmailAndPassword(String email, String password) {
