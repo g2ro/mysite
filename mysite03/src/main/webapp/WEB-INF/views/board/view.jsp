@@ -33,21 +33,12 @@
 					</tr>
 				</table>
 				<div class="bottom">
-					<form class="board-form" method="post"
-						action="${pageContext.request.contextPath }/board">
-						<input type="submit" value="글목록">
-					</form>
+						<a href="${pageContext.request.contextPath }/board">글목록</a>
 					<c:if test="${not empty sessionScope.authUser && sessionScope.authUser.id == Bvo.userId }">
-						<form class="board-form" method="post" action="${pageContext.request.contextPath }/board/modify">
-							 <input type="hidden" name="id" value="${Bvo.id}"> 
-							 <input type="hidden" name="userId" value="${Bvo.userId}">
-							 <input type="submit" value="글수정">
-						</form>
+						<a href="${pageContext.request.contextPath }/board/modify/${Bvo.id}">글수정</a>
 					</c:if>
 					<c:if test="${not empty sessionScope.authUser}">
-						<%-- <form class="board-form" method="get" action="${pageContext.request.contextPath }/board/write/${Bvo.id}"> --%>
-							<a href="${pageContext.request.contextPath }/board/write/${Bvo.id}"><input type="button" value="답글"></a>
-						<!-- </form> -->
+						<a href="${pageContext.request.contextPath }/board/write/${Bvo.id}">답글</a>
 					</c:if>
 				</div>
 			</div>

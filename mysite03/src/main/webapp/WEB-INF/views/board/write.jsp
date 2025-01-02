@@ -14,14 +14,6 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp"/>
 		<div id="content">
 			<div id="board">
-				<%-- <form class="board-form" method="post" action="${pageContext.request.contextPath }/board">
-					<c:choose>
-					<c:when test="${empty requestScope.idStr}"><input type = "hidden" name = "a" value="writeboard"></c:when>
-					<c:otherwise>
-						<input type = "hidden" name = "a" value="writereply">
-						<input type = "hidden" name = "id" value="${requestScope.idStr }">
-					</c:otherwise>
-					</c:choose> --%>
 					<form class="board-form" method="post" 
       					action='${pageContext.request.contextPath}/board/write/${not empty id ? id : 0}'>
     					<table class="tbl-ex">

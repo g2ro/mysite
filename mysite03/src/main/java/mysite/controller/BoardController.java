@@ -26,23 +26,12 @@ public class BoardController {
 	
 	@RequestMapping("")
 	public String board(Model model,
-			@RequestParam(name = "p", required = false) Integer p ,
+			@RequestParam(name = "p", required = false) String p ,
 			@RequestParam(name = "kwd", required = false) String kwd) {
-		Integer currentPage = 0;
-		if(p == null) {
-			currentPage = 1;
-		}else {
-			currentPage = p;
-		}
-
-		if(kwd == null || kwd.isEmpty()) {
-			kwd = "%";
-		}
 		
-		Map<String, Object> data = boardService.getContentsList(currentPage, kwd);
+		Map<String, Object> data = boardService.getContentsList(p, kwd);
 		model.addAttribute("data", data);
-		model.addAttribute("kwd", kwd);
-		model.addAttribute("currentPage", currentPage);
+
 		return "board/list";
 	}
 	
@@ -75,9 +64,10 @@ public class BoardController {
 		
 	}
 	
-	@RequestMapping("/modify")
-	public String modify(@RequestParam("id") Long id, @RequestParam("userId") Long userId, Model model) {
-		model.addAttribute("Bvo", boardService.getContents(id, userId));
+	@Auth
+	@RequestMapping("/modify/{id}")
+	public String modify(@PathVariable("id") Long id, @AuthUser UserVo authUser, Model model) {
+		model.addAttribute("Bvo", boardService.getContents(id, authUser.getId()));
 		return "board/modify";
 	}
 	

@@ -42,7 +42,21 @@ public class BoardService {
 		boardRepository.deleteById(id, userId);
 	}
 	
-	public Map<String, Object> getContentsList(int currentPage, String keyword){
+	public Map<String, Object> getContentsList(String p, String kwd){
+		Integer currentPage = 0;
+		String keyword = kwd;
+		
+		if(p == null) {
+			currentPage = 1;
+		}else {
+			currentPage = Integer.parseInt(p);
+		}
+
+		if(kwd == null || kwd.isEmpty()) {
+			keyword = "%";
+		}
+		
+		
 		// view의 pagination를 위한 데이터 값 계산
 		List<BoardVo> list = null;
 		
@@ -78,6 +92,8 @@ public class BoardService {
 		data.put("endPage", endPage);
 		data.put("totalPage", totalPage);
 		data.put("pageSize", pageSize);
+		data.put("keyword", keyword);
+		data.put("currentPage", currentPage);
 		
 		return data;
 	}

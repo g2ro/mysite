@@ -35,7 +35,7 @@
 									<c:if test="${board.depth > 0}">
 										<img src="${pageContext.request.contextPath }/assets/images/reply.png">			
 									</c:if>
-										<a href="board/view/${board.id }?kwd=${kwd}">${board.title }</a>
+										<a href="board/view/${board.id }?kwd=${data.keyword}">${board.title }</a>
 								</td>
 								<td>${board.userName }</td>
 								<td>${board.hit }</td>
@@ -56,21 +56,21 @@
 				<!-- pager 추가 -->
 				<div class="pager">
 					<ul>
-						<c:if test='${currentPage > 1 }'>
-							<li><a href='board?p=${currentPage - 1 }&kwd=${kwd}'>◀</a></li>
+						<c:if test='${data.currentPage > 1 }'>
+							<li><a href='board?p=${data.currentPage - 1 }&kwd=${data.keyword}'>◀</a></li>
 						</c:if>
 								<c:forEach var= "page" begin="${data.startPage }" end="${data.endPage }">
 									<c:choose>
-										<c:when test="${currentPage == page }">
-											<li class="selected"><a href="board?p=${page }&kwd=${kwd}">${page }</a></li>
+										<c:when test="${data.currentPage == page }">
+											<li class="selected"><a href="board?p=${page }&kwd=${data.keyword}">${page }</a></li>
 										</c:when>
 										<c:otherwise>
-											<li ><a href="board?p=${page }&kwd=${kwd}">${page }</a></li>
+											<li ><a href="board?p=${page }&kwd=${data.keyword}">${page }</a></li>
 										</c:otherwise>
 									</c:choose>
 								</c:forEach>
-						<c:if test="${currentPage < data.totalPage }">
-							<li><a href="board?p=${currentPage + 1 }&kwd=${kwd}">▶</a></li>
+						<c:if test="${data.currentPage < data.totalPage }">
+							<li><a href="board?p=${data.currentPage + 1 }&kwd=${data.keyword}">▶</a></li>
 						</c:if>
 					</ul>
 				</div>
