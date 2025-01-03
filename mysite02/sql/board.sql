@@ -87,3 +87,5 @@ WHERE id = 11;
 
 select * from board;
 select * from user;
+desc board;
+
