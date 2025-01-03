@@ -21,6 +21,9 @@
 		</mvc:argument-resolvers>
 	</mvc:annotation-driven>
 	
+	<!-- mvc url-resource mapping -->
+	<mvc:resources mapping="/assets/upload-images/**" location="file:/Users/kilho/mysite-uploads/"/>
+	
 	<!-- DefaultServlet Handler -->
 	<mvc:default-servlet-handler/>
 	
