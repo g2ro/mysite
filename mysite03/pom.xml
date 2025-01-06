@@ -111,6 +111,14 @@
 			<version>4.0.0</version>
 			<scope>provided</scope>
 		</dependency>
+		
+		<!-- spring aspects-->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
