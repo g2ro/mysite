@@ -88,7 +88,7 @@
 				<![CDATA[
 				SELECT b.id, title, name, hit, reg_date, g_no, o_no, depth, b.user_id as userId
 	            FROM board b
-	                JOIN user u ON (userId = u.id)
+	                JOIN user u ON (b.user_id = u.id)
 	            where (title like '%${keyword}%' or contents like '%${keyword}%')
 	            ORDER BY g_no DESC, o_no ASC
 	            LIMIT #{pageSize} OFFSET #{offset}

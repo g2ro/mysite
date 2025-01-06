@@ -36,7 +36,8 @@ public class AdminController {
 			) {
 		
 		siteService.updateSite(title, welcom, file1, description); // 해당 로직 작성 예정
-		return "redirect:/";
+		return "redirect:/admin/main";
+		
 	}
 	
 	@RequestMapping("/guestbook")

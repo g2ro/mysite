@@ -32,7 +32,6 @@
 	</bean>
 	
 	<context:annotation-config />
-
 	<context:component-scan base-package="mysite.service, mysite.repository, mysite.component">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Repository" />
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Service" />
