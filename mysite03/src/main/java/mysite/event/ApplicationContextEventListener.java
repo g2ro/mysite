@@ -11,7 +11,6 @@ import mysite.vo.SiteVo;
 public class ApplicationContextEventListener {
 	@Autowired
 	private ApplicationContext applicationContext;
-	@Autowired
 	
 	
 	@EventListener({ContextRefreshedEvent.class})

@@ -43,7 +43,7 @@ window.addEventListener("load", function(){
 					<c:otherwise>
 						<li><a href="${pageContext.request.contextPath }/user/update"><spring:message code="header.gnb.settings"/></a><li>
 						<li><a href="${pageContext.request.contextPath }/user/logout"><spring:message code="header.gnb.logout"/></a><li>
-						<li>${authUser.name }님 안녕하세요 ^^;</li>
+						<li><spring:message code="header.gnb.greeting"/>${authUser.name }</li>
 					</c:otherwise>
 				</c:choose>
 			</ul>
