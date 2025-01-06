@@ -4,9 +4,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpServletRequest;
 import mysite.security.Auth;
 import mysite.service.SiteService;
 import mysite.vo.SiteVo;
@@ -32,10 +33,16 @@ public class AdminController {
 			@RequestParam("title") String title,
 			@RequestParam("welcomeMessage") String welcom,
 			@RequestParam("file1") MultipartFile file1,
-			@RequestParam("description") String description
+			@RequestParam("description") String description,
+			HttpServletRequest request
 			) {
 		
 		siteService.updateSite(title, welcom, file1, description); // 해당 로직 작성 예정
+		ServletContext application = request.getServletContext();
+		SiteVo siteVo = (SiteVo) application.getAttribute("siteVo");
+		siteVo.setTitle(title);
+		application.setAttribute("siteVo", siteVo);
+		
 		return "redirect:/admin/main";
 		
 	}
