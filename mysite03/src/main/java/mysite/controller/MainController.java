@@ -11,14 +11,8 @@ import mysite.service.SiteService;
 
 @Controller
 public class MainController {
-	private SiteService siteService;
-
-	public MainController(SiteService siteService) {
-		this.siteService = siteService;
-	}
 	@RequestMapping({"/", "/main"})
 	public String index(Model model, HttpServletRequest request) {
-		model.addAttribute("sitevo", siteService.getSite());
 		return "main/index";
 	}
 }

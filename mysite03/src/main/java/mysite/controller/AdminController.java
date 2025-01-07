@@ -17,9 +17,11 @@ import mysite.vo.SiteVo;
 @RequestMapping("/admin")
 public class AdminController {
 	private SiteService siteService;
+	private final ServletContext servletContext;
 	
-	public AdminController(SiteService siteService) {
+	public AdminController(SiteService siteService, ServletContext servletContext) {
 		this.siteService = siteService;
+		this.servletContext = servletContext;
 	}
 	
 	@RequestMapping({"", "/main"})
@@ -33,15 +35,17 @@ public class AdminController {
 			@RequestParam("title") String title,
 			@RequestParam("welcomeMessage") String welcom,
 			@RequestParam("file1") MultipartFile file1,
-			@RequestParam("description") String description,
-			HttpServletRequest request
+			@RequestParam("description") String description
+//			HttpServletRequest request
 			) {
 		
 		siteService.updateSite(title, welcom, file1, description); // 해당 로직 작성 예정
-		ServletContext application = request.getServletContext();
-		SiteVo siteVo = (SiteVo) application.getAttribute("siteVo");
-		siteVo.setTitle(title);
-		application.setAttribute("siteVo", siteVo);
+		servletContext.setAttribute("siteVo", siteService.getSite());
+		
+//		ServletContext application = request.getServletContext();
+//		SiteVo siteVo = (SiteVo) application.getAttribute("siteVo");
+//		siteVo.setTitle(title);
+//		application.setAttribute("siteVo", siteVo);
 		
 		return "redirect:/admin/main";
 		

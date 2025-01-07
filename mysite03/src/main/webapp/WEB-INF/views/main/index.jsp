@@ -19,10 +19,10 @@
 			<div id="content">
 				<div id="site-introduction">
 					<img id="profile"
-						src="<%=request.getContextPath() %>${sitevo.profile}">
-					<h2>${sitevo.welcom }</h2>
+						src="<%=request.getContextPath() %>${siteVo.profile}">
+					<h2>${siteVo.welcom }</h2>
 					<p>
-						${fn:replace(sitevo.description, newLine, "<br>") }
+						${fn:replace(siteVo.description, newLine, "<br>") }
 						<br> 
 						<a href="<%=request.getContextPath() %>/guestbook">방명록</a>에 글 남기기<br>
 					</p>

@@ -12,28 +12,37 @@ import mysite.vo.SiteVo;
 
 public class SiteInterceptor implements HandlerInterceptor {
 	
-	private LocaleResolver localeResolver;
+	private final LocaleResolver localeResolver;
+	private final SiteService siteService;
 	
-	@Autowired
-	private SiteService siteService;
 	
-	public SiteInterceptor(LocaleResolver localeResolver) {
+	public SiteInterceptor(LocaleResolver localeResolver, SiteService siteService) {
 		this.localeResolver = localeResolver;
+		this.siteService = siteService;
 	}
 	
 	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-			throws Exception {
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+		
+		
+		//locale
 		String lang = localeResolver.resolveLocale(request).getLanguage();
 		request.setAttribute("lang", lang);
 		
-		SiteVo siteVo = null;
-		ServletContext application = request.getServletContext();
-
-		if(application.getAttribute("siteVo") == null) {
+		//siteVo
+		SiteVo siteVo = (SiteVo) request.getServletContext().getAttribute("siteVo");
+		if(siteVo == null) {
 			siteVo = siteService.getSite();
-			application.setAttribute("siteVo", siteVo);
+			request.getServletContext().setAttribute("siteVo", siteVo);
 		}
+		
+//		SiteVo siteVo = null;
+//		ServletContext application = request.getServletContext();
+//
+//		if(application.getAttribute("siteVo") == null) {
+//			siteVo = siteService.getSite();
+//			application.setAttribute("siteVo", siteVo);
+//		}
 		
 		
 		return true;
