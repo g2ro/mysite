@@ -33,15 +33,15 @@ public class UserRepository {
 	}
 	
 	public UserVo findByEmailAndPassword(String email, String password) {
-		StopWatch sw = new StopWatch();
-		sw.start();
-		UserVo userVo = sqlSession.selectOne("user.findByEmailAndPassword", Map.of("email", email, "password", password));
+//		StopWatch sw = new StopWatch();
+//		sw.start();
 		
-		sw.stop();
-		long totalTime = sw.getTotalTimeMillis();
-		System.out.println("[Execution Time][UserRepository.findByEmailAndPassword] " + totalTime + "millisecond");
+		return sqlSession.selectOne("user.findByEmailAndPassword", Map.of("email", email, "password", password));
+		
+//		sw.stop();
+//		long totalTime = sw.getTotalTimeMillis();
+//		System.out.println("[Execution Time][UserRepository.findByEmailAndPassword] " + totalTime + "millisecond");
 		// 이렇게 하면 안됨. AOP(Aspect)를 이용해서 진행하는 것이 추천됨. 
-		return userVo;
 		
 	}
 	public UserVo findById(Long id) {
