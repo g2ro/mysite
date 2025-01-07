@@ -1,5 +1,7 @@
 package mysite.controller;
 
+import org.springframework.beans.BeanUtils;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.ServletContext;
-import jakarta.servlet.http.HttpServletRequest;
 import mysite.security.Auth;
 import mysite.service.SiteService;
 import mysite.vo.SiteVo;
@@ -16,12 +17,14 @@ import mysite.vo.SiteVo;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-	private SiteService siteService;
+	private final SiteService siteService;
 	private final ServletContext servletContext;
+	private final ApplicationContext applicationContext;
 	
-	public AdminController(SiteService siteService, ServletContext servletContext) {
+	public AdminController(SiteService siteService, ServletContext servletContext, ApplicationContext applicationContext) {
 		this.siteService = siteService;
 		this.servletContext = servletContext;
+		this.applicationContext = applicationContext;
 	}
 	
 	@RequestMapping({"", "/main"})
@@ -40,7 +43,13 @@ public class AdminController {
 			) {
 		
 		siteService.updateSite(title, welcom, file1, description); // 해당 로직 작성 예정
+		
+		// update servlet context bean
 		servletContext.setAttribute("siteVo", siteService.getSite());
+		
+		//update application context bean
+		SiteVo site = applicationContext.getBean(SiteVo.class);
+		BeanUtils.copyProperties(siteService.getSite(), site);
 		
 //		ServletContext application = request.getServletContext();
 //		SiteVo siteVo = (SiteVo) application.getAttribute("siteVo");
