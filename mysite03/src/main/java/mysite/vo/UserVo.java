@@ -1,13 +1,26 @@
 package mysite.vo;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
+
 public class UserVo {
 
 	private Long id;
+	@Size(min=2, max=8)
 	private String name;
+	
+	@NotEmpty
+	@Email
 	private String email;
+	
+	@Size(min=4, max=8)
 	private String password;
 	private String gender;
+	private String agreeProv;
+	
 	private String role;
+	
 	
 	public Long getId() {
 		return id;
@@ -45,10 +58,17 @@ public class UserVo {
 	public void setRole(String role) {
 		this.role = role;
 	}
+	public String getAgreeProv() {
+		return agreeProv;
+	}
+	public void setAgreeProv(String agreeProv) {
+		this.agreeProv = agreeProv;
+	}
+	
 	@Override
 	public String toString() {
 		return "UserVo [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", gender="
-				+ gender + ", role=" + role + "]";
+				+ gender + ", agreeProv=" + agreeProv + ", role=" + role + "]";
 	}
 	
 }
