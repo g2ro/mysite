@@ -39,7 +39,12 @@
 			<artifactId>spring-jdbc</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-
+		<!-- jackson -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.18.1</version>
+		</dependency>
 		<!-- MyBatis -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
@@ -51,7 +56,7 @@
 			<artifactId>mybatis-spring</artifactId>
 			<version>3.0.4</version>
 		</dependency>
-		
+
 		<!-- Common DBCP -->
 		<dependency>
 			<groupId>commons-dbcp</groupId>
@@ -83,7 +88,7 @@
 			<artifactId>jakarta.servlet.jsp.jstl</artifactId>
 			<version>3.0.1</version>
 		</dependency>
-		
+
 		<!-- Logback --> 
 		<dependency>                                    
 			<groupId>org.slf4j</groupId>                
@@ -94,8 +99,8 @@
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<version>${logback.version}</version>
-		</dependency>		
-		
+		</dependency>
+
 		<!-- servlet api -->
 		<dependency>
 			<groupId>jakarta.servlet</groupId>
@@ -111,14 +116,14 @@
 			<version>4.0.0</version>
 			<scope>provided</scope>
 		</dependency>
-		
+
 		<!-- spring aspects-->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aspects</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-	
+
 		<!-- hibernate validator -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
