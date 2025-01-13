@@ -63,8 +63,8 @@
 	</bean>
 
 	<!-- mvc url-resource mapping -->
-	<mvc:resources mapping="/assets/upload-images/**"
-		location="file:/mysite-uploads/" />
+	<mvc:resources mapping="/assets/upload-images/**" 
+		location="file:/Users/kilho/mysite-uploads/"/>
 
 	<!-- Multipart Resolver -->
 	<bean id="multipartResolver"
