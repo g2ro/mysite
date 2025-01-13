@@ -11,15 +11,17 @@ import mysite.service.SiteService;
 import mysite.vo.SiteVo;
 
 public class SiteInterceptor implements HandlerInterceptor {
+	@Autowired
+	private LocaleResolver localeResolver;
 	
-	private final LocaleResolver localeResolver;
-	private final SiteService siteService;
+	@Autowired
+	private SiteService siteService;
 	
 	
-	public SiteInterceptor(LocaleResolver localeResolver, SiteService siteService) {
-		this.localeResolver = localeResolver;
-		this.siteService = siteService;
-	}
+//	public SiteInterceptor(LocaleResolver localeResolver, SiteService siteService) {
+//		this.localeResolver = localeResolver;
+//		this.siteService = siteService;
+//	}
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
