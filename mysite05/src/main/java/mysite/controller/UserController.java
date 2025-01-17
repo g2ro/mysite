@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import mysite.security.Auth;
 import mysite.service.UserService;
 import mysite.vo.UserVo;
 
@@ -87,7 +86,7 @@ public class UserController {
 //	} // LogoutInterceptor로 역할 대
 	
 	
-	@Auth
+//	@Auth
 	@RequestMapping(value= "/update", method=RequestMethod.GET)
 	public String update(/* HttpSession session, */ Authentication authentication, Model model) {
 		// 1. HttpSession을 사용하는 방법
@@ -111,7 +110,7 @@ public class UserController {
 		return "user/update";
 	}
 	
-	@Auth
+//	@Auth
 	@RequestMapping(value= "/update", method=RequestMethod.POST)
 	public String update(Authentication authentication, UserVo userVo) {
 		UserVo authUser = (UserVo)authentication.getPrincipal();

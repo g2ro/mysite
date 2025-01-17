@@ -9,11 +9,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.ServletContext;
-import mysite.security.Auth;
 import mysite.service.SiteService;
 import mysite.vo.SiteVo;
 
-@Auth(role="ADMIN") //모든 mappoing의 권한을 다음과 같이 설정하겠다.
+//@Auth(role="ADMIN") //모든 mappoing의 권한을 다음과 같이 설정하겠다.
 @Controller
 @RequestMapping("/admin")
 public class AdminController {

@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import mysite.security.Auth;
 import mysite.service.BoardService;
 import mysite.vo.BoardVo;
 import mysite.vo.UserVo;
@@ -40,7 +39,7 @@ public class BoardController {
 		return "board/write";
 	}
 	
-	@Auth
+//	@Auth
 	@RequestMapping(value = "/write/{id}", method = RequestMethod.POST)
 	public String write(Authentication authentication,BoardVo vo, @PathVariable("id") Long id) {
 		UserVo authUser = (UserVo)authentication.getPrincipal();
@@ -52,7 +51,7 @@ public class BoardController {
 		
 	}
 	
-	@Auth
+//	@Auth
 	@RequestMapping(value = "/write/{id}", method = RequestMethod.GET)
 	public String write(Authentication authentication, @PathVariable("id") Long id, Model model) {
 		UserVo authUser = (UserVo)authentication.getPrincipal();
@@ -68,7 +67,7 @@ public class BoardController {
 		
 	}
 	
-	@Auth
+//	@Auth
 	@RequestMapping("/modify/{id}")
 	public String modify(@PathVariable("id") Long id, Authentication authentication, Model model) {
 		UserVo authUser = (UserVo)authentication.getPrincipal();
@@ -82,7 +81,7 @@ public class BoardController {
 		return "redirect:/board";
 	}
 	
-	@Auth
+//	@Auth
 	@RequestMapping("/delete")
 	public String delete(Authentication authentication, @RequestParam("id") Long id) {
 		UserVo authUser = (UserVo)authentication.getPrincipal();
