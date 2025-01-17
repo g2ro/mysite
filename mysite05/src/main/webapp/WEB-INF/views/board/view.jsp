@@ -34,12 +34,16 @@
 				</table>
 				<div class="bottom">
 						<a href="${pageContext.request.contextPath }/board">글목록</a>
-					<c:if test="${not empty sessionScope.authUser && sessionScope.authUser.id == Bvo.userId }">
+					<sec:authorize access="isAuthenticated()">
+					<%-- <c:if test="${not empty sessionScope.authUser && sessionScope.authUser.id == Bvo.userId }"> --%>
 						<a href="${pageContext.request.contextPath }/board/modify/${Bvo.id}">글수정</a>
-					</c:if>
-					<c:if test="${not empty sessionScope.authUser}">
+					<%-- </c:if> --%>
+					</sec:authorize>
+					<sec:authorize access="isAuthenticated()">
+					<%-- <c:if test="${not empty sessionScope.authUser}"> --%>
 						<a href="${pageContext.request.contextPath }/board/write/${Bvo.id}">답글</a>
-					</c:if>
+					<%-- </c:if> --%>
+					</sec:authorize>
 				</div>
 			</div>
 		</div>

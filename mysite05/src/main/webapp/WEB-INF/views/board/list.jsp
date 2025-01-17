@@ -76,9 +76,11 @@
 					</ul>
 				</div>
 				<div class="bottom">
-					<c:if test="${not empty sessionScope.authUser }">
+				<sec:authorize access="isAuthenticated()">
+					<%-- <c:if test="${not empty sessionScope.authUser }"> --%>
 						<a href="${pageContext.request.contextPath }/board/write" id="new-book">글쓰기</a>
-					</c:if>
+					<%-- </c:if> --%>
+				</sec:authorize>
 				</div>				
 			</div>
 		</div>

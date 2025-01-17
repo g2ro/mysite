@@ -47,9 +47,9 @@
 		<!-- 파라미터가 객체일땐 test조건에 바로 접근할 수 있지만 파라미터가 객체가 아닐땐, _parameter를 이용하여 test를 진행한다. -->
 	</update>
 	
-	<select id="findByEmail" parameterType="String" resultType="uservo">
+	<select id="findByEmail" parameterType="String" resultType="map">
 		<![CDATA[
-			SELECT name, email, gender 
+			SELECT id, name, email, password, gender, role
 			FROM user 
 			WHERE email = #{email}
 		]]>

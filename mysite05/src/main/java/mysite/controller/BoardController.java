@@ -2,6 +2,7 @@ package mysite.controller;
 
 import java.util.Map;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import mysite.security.Auth;
-import mysite.security.AuthUser;
 import mysite.service.BoardService;
 import mysite.vo.BoardVo;
 import mysite.vo.UserVo;
@@ -42,16 +42,20 @@ public class BoardController {
 	
 	@Auth
 	@RequestMapping(value = "/write/{id}", method = RequestMethod.POST)
-	public String write(@AuthUser UserVo authUser,BoardVo vo, @PathVariable("id") Long id) {
+	public String write(Authentication authentication,BoardVo vo, @PathVariable("id") Long id) {
+		UserVo authUser = (UserVo)authentication.getPrincipal();
 		vo.setUserId(authUser.getId());
 		vo.setId(id);
 		boardService.addContents(vo);
 		return "redirect:/board";
+		
+		
 	}
 	
 	@Auth
 	@RequestMapping(value = "/write/{id}", method = RequestMethod.GET)
-	public String write(@AuthUser UserVo authUser, @PathVariable("id") Long id, Model model) {
+	public String write(Authentication authentication, @PathVariable("id") Long id, Model model) {
+		UserVo authUser = (UserVo)authentication.getPrincipal();
 		model.addAttribute("id", id);
 		return "board/write";
 	}
@@ -66,7 +70,8 @@ public class BoardController {
 	
 	@Auth
 	@RequestMapping("/modify/{id}")
-	public String modify(@PathVariable("id") Long id, @AuthUser UserVo authUser, Model model) {
+	public String modify(@PathVariable("id") Long id, Authentication authentication, Model model) {
+		UserVo authUser = (UserVo)authentication.getPrincipal();
 		model.addAttribute("Bvo", boardService.getContents(id, authUser.getId()));
 		return "board/modify";
 	}
@@ -79,7 +84,8 @@ public class BoardController {
 	
 	@Auth
 	@RequestMapping("/delete")
-	public String delete(@AuthUser UserVo authUser, @RequestParam("id") Long id) {
+	public String delete(Authentication authentication, @RequestParam("id") Long id) {
+		UserVo authUser = (UserVo)authentication.getPrincipal();
 		boardService.deleteContents(id, authUser.getId());
 		return "redirect:/board";
 	}

@@ -1,20 +1,27 @@
 package mysite.config.app;
 
-import java.util.List;
+import java.io.IOException;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.util.matcher.RegexRequestMatcher;
-import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import mysite.repository.UserDetailsServiceImpl;
+import mysite.repository.UserRepository;
 
 
 @Configuration
@@ -26,9 +33,35 @@ public class SecurityConfig{
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     	http
+    		.csrf((csrf) -> {
+    			csrf.disable(); // post를 받을 때 자신이 보낸 post가 맞는지 확인하는 역할
+    		})
     		.formLogin((formLogin) -> {
     			formLogin
-    				.loginPage("/user/login");
+    				.loginPage("/user/login")
+    				.loginProcessingUrl("/user/auth")
+    				.usernameParameter("email")
+    				.passwordParameter("password")
+    				.defaultSuccessUrl("/")
+//    				.failureUrl("/user/login?result=fail");
+    				.failureHandler(new AuthenticationFailureHandler() {
+						@Override
+						public void onAuthenticationFailure(
+								HttpServletRequest request, 
+								HttpServletResponse response,
+								AuthenticationException exception) throws IOException, ServletException {
+								request.setAttribute("email", request.getParameter("email"));
+								request.setAttribute("result", "fail");
+								
+								// Servlet Handler에서 foward 사용하는 방식이지만, SecurityContextHolderAwareRequestFilter에 의해 controller로 바로 보내지게 된다.
+								// 생각해보기
+								request
+									.getRequestDispatcher("/user/login")
+									.forward(request, response);
+							
+						}
+    					
+    				});
     		})
     		.authorizeHttpRequests((authorizeRequests) -> {
     			/* ACL */
@@ -39,6 +72,26 @@ public class SecurityConfig{
     			.permitAll();
     		});
     	return http.build();
+    }
+    
+    @Bean
+    public AuthenticationManager authenticationManager(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+    	DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+    	
+    	authenticationProvider.setPasswordEncoder(passwordEncoder);
+    	authenticationProvider.setUserDetailsService(userDetailsService);
+    	
+    	return new ProviderManager(authenticationProvider);
+    }
+    
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+    	return new BCryptPasswordEncoder(4); /*4 ~ 31 */ // 해쉬하는 횟수
+    }
+    
+    @Bean
+    public UserDetailsService userDetailsService(UserRepository userRepository) {
+    	return new UserDetailsServiceImpl(userRepository);
     }
 }
 

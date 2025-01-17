@@ -74,7 +74,7 @@ $(function(){
 					</p>
 					
 					<label class="block-label" for="password"><spring:message code="user.join.label.password"/></label>
-					<form:input path="password"/>
+					<form:password path="password"/>
 					<p style="padding: 5px 0; margin:0; color:#f00">
 						<form:errors path="password"/>
 					</p>
