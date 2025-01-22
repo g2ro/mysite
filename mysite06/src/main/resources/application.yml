@@ -17,10 +17,22 @@ spring:
       proxy-target-class: true #aop proxy 적용방식
 
    #mvc
-   #mvc:
-    #  view:
-     #    prefix: /WEB-INF/views/
-      #   suffix: .jsp
+   mvc:
+      static-path-pattern: /assets/**
+   #   view:
+   #      prefix: /WEB-INF/views/
+   #      suffix: .jsp
+   web:
+      resources:
+         static-locations: [classpath:assets/, file:/User/kilho/mysite-uploads/]
+
+   servlet:
+      multipart:
+         enabled: true
+         max-file-size: 10485760
+         max-request-size: 104857600
+         file-size-threshold: 5242880
+
 
    messages:
     basename: messages/message
@@ -44,4 +56,8 @@ mybatis:
 server:
    port: 8080
    servlet:
-      context-path: /mysite06	 
+      context-path: /mysite06
+
+# logging
+logging:
+   config: classpath:logback.xml

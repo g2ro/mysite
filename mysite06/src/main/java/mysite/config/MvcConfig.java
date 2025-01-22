@@ -1,10 +1,11 @@
-package mysite.config.web;
+package mysite.config;
 
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
@@ -27,11 +29,20 @@ import mysite.event.ApplicationContextEventListener;
 import mysite.interceptor.SiteInterceptor;
 import mysite.service.SiteService;
 
-@Configuration
-@EnableWebMvc
+@SpringBootConfiguration
+//@EnableWebMvc
 public class MvcConfig implements WebMvcConfigurer{
-	// View Resolver
+
+	//Locale Resolver
+	@Bean
+	public LocaleResolver localeResolver() {
+		CookieLocaleResolver localeResolver = new CookieLocaleResolver("lang");
+		localeResolver.setCookieHttpOnly(false);
+		
+		return localeResolver;
+	}
 	
+	// View Resolver
 	@Bean
 	public ViewResolver viewResolver() {
 		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
@@ -98,7 +109,7 @@ public class MvcConfig implements WebMvcConfigurer{
 		return new ApplicationContextEventListener();
 	}
 	
-	// Interceptors
+	// Interceptors 스프링 부트에선 지원 안해주기 때문에 따로 작성해 주어야한다.
 	@Bean
 	public HandlerInterceptor siteInterceptor() {
 		return new SiteInterceptor();
