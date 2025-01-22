@@ -15,11 +15,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import mysite.dto.JsonResult;
 
+@Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
-	private static final Log Log = LogFactory.getLog(GlobalExceptionHandler.class);
+	
 	
 	@ExceptionHandler(Exception.class)
 	public void handler(
@@ -30,7 +32,6 @@ public class GlobalExceptionHandler {
 		StringWriter errors = new StringWriter();
 		e.printStackTrace(new PrintWriter(errors));
 		System.out.println(errors.toString());
-		Log.error(errors.toString());
 	
 		// 2. 요청 구분
 		// 	json 요청: request header의 accept: application/json (o)
@@ -53,13 +54,13 @@ public class GlobalExceptionHandler {
 			if(e instanceof NoHandlerFoundException || e instanceof NoResourceFoundException) {
 				request.setAttribute("errors", errors.toString());
 				request
-					.getRequestDispatcher("/error/404.jsp")
+					.getRequestDispatcher("/error/404")
 					.forward(request, response);				
 				
 			} else {
 				request.setAttribute("errors", errors.toString());
 				request
-					.getRequestDispatcher("/error/500.jsp")
+					.getRequestDispatcher("/error/500")
 					.forward(request, response);				
 			}
 		}

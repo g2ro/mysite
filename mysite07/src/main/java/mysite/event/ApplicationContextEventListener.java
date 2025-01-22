@@ -8,9 +8,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 
+import lombok.extern.slf4j.Slf4j;
 import mysite.service.SiteService;
 import mysite.vo.SiteVo;
 
+@Slf4j
 public class ApplicationContextEventListener {
 	@Autowired
 	private ApplicationContext applicationContext;
@@ -18,7 +20,8 @@ public class ApplicationContextEventListener {
 	
 	@EventListener({ContextRefreshedEvent.class})
 	public void handlerContextRefreshedEvent() {
-		System.out.println("-- Context Refreshed Event Received --");
+//		System.out.println("-- Context Refreshed Event Received --");
+		log.info("-- Context Refreshed Event Received --");
 		
 		SiteService siteService = applicationContext.getBean(SiteService.class);
 		SiteVo vo = siteService.getSite();
