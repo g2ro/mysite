@@ -8,12 +8,38 @@ spring:
          enabled: true
       livereload:
          enabled: true
+   # whether bean definition overriding
    main:
       allow-bean-definition-overriding: true
    # aop
    aop:
       auto: true
       proxy-target-class: true #aop proxy 적용방식
+
+   #mvc
+   #mvc:
+    #  view:
+     #    prefix: /WEB-INF/views/
+      #   suffix: .jsp
+
+   messages:
+    basename: messages/message
+    encoding: utf-8
+
+   datasource:
+      driver-class-name: org.mariadb.jdbc.Driver
+      url: jdbc:mariadb://192.168.64.3:3306/webdb
+      username: webdb
+      password: webdb
+      hikari:
+         minimum-idle: 10
+         maximum-pool-size: 20
+
+   #mybatis
+mybatis:
+   config-location: classpath:mybatis/configuration.xml
+
+
 # server configuration
 server:
    port: 8080

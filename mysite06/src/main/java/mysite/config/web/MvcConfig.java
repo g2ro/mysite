@@ -31,6 +31,7 @@ import mysite.service.SiteService;
 @EnableWebMvc
 public class MvcConfig implements WebMvcConfigurer{
 	// View Resolver
+	
 	@Bean
 	public ViewResolver viewResolver() {
 		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
@@ -42,38 +43,39 @@ public class MvcConfig implements WebMvcConfigurer{
 		return viewResolver;
 	}
 	
-	// Message Converter
-	@Bean
-	public StringHttpMessageConverter stringHttpMessageConverter() {
-		StringHttpMessageConverter messageConverter = new StringHttpMessageConverter();
-		messageConverter.setSupportedMediaTypes(
-				Arrays.asList(
-							new MediaType("text","html",Charset.forName("utf-8"))
-						)
-				);
-		return messageConverter;
-	}
 	
-	@Bean
-	public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
-		Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder()
-				.indentOutput(true)
-				.dateFormat(new SimpleDateFormat("yyy-mm-dd hh:MM:ss"));
-//		builder.indentOutput(true);
-//		builder.dateFormat(new SimpleDateFormat("yyy-mm-dd hh:MM:ss")); //리턴값들이 builder이기 때문에 다음과 같이 서정파일들 관리함.
-		MappingJackson2HttpMessageConverter messageConveter = new MappingJackson2HttpMessageConverter();
-		messageConveter.setSupportedMediaTypes(
-				Arrays.asList(
-						new MediaType("application","json",Charset.forName("utf-8"))
-					)
-				);
-		return messageConveter;
-	}
-	@Override
-	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-		converters.add(stringHttpMessageConverter());
-		converters.add(mappingJackson2HttpMessageConverter());
-	}
+//	// Message Converter
+//	@Bean
+//	public StringHttpMessageConverter stringHttpMessageConverter() {
+//		StringHttpMessageConverter messageConverter = new StringHttpMessageConverter();
+//		messageConverter.setSupportedMediaTypes(
+//				Arrays.asList(
+//							new MediaType("text","html",Charset.forName("utf-8"))
+//						)
+//				);
+//		return messageConverter;
+//	}
+//	
+//	@Bean
+//	public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
+//		Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder()
+//				.indentOutput(true)
+//				.dateFormat(new SimpleDateFormat("yyy-mm-dd hh:MM:ss"));
+////		builder.indentOutput(true);
+////		builder.dateFormat(new SimpleDateFormat("yyy-mm-dd hh:MM:ss")); //리턴값들이 builder이기 때문에 다음과 같이 서정파일들 관리함.
+//		MappingJackson2HttpMessageConverter messageConveter = new MappingJackson2HttpMessageConverter();
+//		messageConveter.setSupportedMediaTypes(
+//				Arrays.asList(
+//						new MediaType("application","json",Charset.forName("utf-8"))
+//					)
+//				);
+//		return messageConveter;
+//	}
+//	@Override
+//	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+//		converters.add(stringHttpMessageConverter());
+//		converters.add(mappingJackson2HttpMessageConverter());
+//	}
 	
 	// static(assets) url mapping
 	@Override
