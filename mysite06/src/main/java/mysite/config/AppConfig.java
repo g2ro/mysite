@@ -11,10 +11,10 @@ import mysite.config.app.MyBatisConfig;
 import mysite.config.app.SecurityConfig;
 
 @Configuration
-@EnableAspectJAutoProxy
-@EnableTransactionManagement
-@Import({DBConfig.class, MyBatisConfig.class, SecurityConfig.class})
-@ComponentScan(basePackages = {"mysite.service", "mysite.repository", "mysite.component", "mysite.aspect"})
+//@EnableAspectJAutoProxy // 해당 기능도 자동으로 설정해준다.
+//@EnableTransactionManagement // spring starter mybatis에 자동으로 설정해줌 
+//@Import({DBConfig.class, MyBatisConfig.class, SecurityConfig.class}) // Configuration에 의해 자동 스캔을 진행함.
+//@ComponentScan(basePackages = {"mysite.service", "mysite.repository", "mysite.component", "mysite.aspect"})
 public class AppConfig {
 
 }
