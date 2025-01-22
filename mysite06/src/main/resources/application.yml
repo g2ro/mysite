@@ -24,7 +24,7 @@ spring:
    #      suffix: .jsp
    web:
       resources:
-         static-locations: [classpath:assets/, file:/User/kilho/mysite-uploads/]
+         static-locations: [classpath:/assets/, file:///Users/kilho/mysite-uploads/]
 
    servlet:
       multipart:
@@ -57,6 +57,10 @@ server:
    port: 8080
    servlet:
       context-path: /mysite06
+   error:
+      whitelabel:
+         enabled: false
+      path: /error
 
 # logging
 logging:

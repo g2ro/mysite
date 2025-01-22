@@ -91,22 +91,22 @@ public class SecurityConfig{
     			
     			.anyRequest()
     			.permitAll();
-    		})
-    		.exceptionHandling(exceptionHandling -> {
-//    			exceptionHandling.accessDeniedPage("/WEB-INF/views/errors/403.jsp");
-    			exceptionHandling.accessDeniedHandler(new AccessDeniedHandler() {
-					
-					@Override
-					public void handle(
-							HttpServletRequest request, 
-							HttpServletResponse response,
-							AccessDeniedException accessDeniedException) throws IOException, ServletException {
-						
-						response.sendRedirect(request.getContextPath());
-						
-					}
-				});
     		});
+//    		.exceptionHandling(exceptionHandling -> {
+////    			exceptionHandling.accessDeniedPage("/error/403");
+//    			exceptionHandling.accessDeniedHandler(new AccessDeniedHandler() {
+//					
+//					@Override
+//					public void handle(
+//							HttpServletRequest request, 
+//							HttpServletResponse response,
+//							AccessDeniedException accessDeniedException) throws IOException, ServletException {
+//						
+//						response.sendRedirect(request.getContextPath());
+//						
+//					}
+//				});
+//    		});
     	return http.build();
     }
     

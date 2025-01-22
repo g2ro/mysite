@@ -9,7 +9,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>403 Forbidden</h1>
+	<h1>Forbidden(403) :custom</h1>
 	<p>
 		접근금지!
 	</p>

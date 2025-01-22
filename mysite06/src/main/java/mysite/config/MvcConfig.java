@@ -89,12 +89,12 @@ public class MvcConfig implements WebMvcConfigurer{
 //	}
 	
 	// static(assets) url mapping
-	@Override
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry
-		.addResourceHandler("/assets/**")
-		.addResourceLocations("classpath:assets/");
-	}
+//	@Override
+//	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//		registry
+//		.addResourceHandler("/assets/**")
+//		.addResourceLocations("classpath:assets/");
+//	}
 
 	//DefaultServlet Handler
 //	@Override
