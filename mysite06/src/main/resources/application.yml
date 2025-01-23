@@ -24,7 +24,7 @@ spring:
    #      suffix: .jsp
    web:
       resources:
-         static-locations: [classpath:assets/, file:/Users/kilho/mysite-uploads/]
+         static-locations: [classpath:/assets/, file:/Users/kilho/mysite-uploads/]
 
    servlet:
       multipart:

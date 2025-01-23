@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${@site.title}">사이트 제목</title>
+    <script>
+        window.addEventListener("load", function() {
+            const anchors = document.querySelectorAll('#languages a');
+            anchors.forEach(function(el) {
+                el.addEventListener("click", function(event) {
+                    event.preventDefault();
+                    document.cookie =
+                        "lang=" + this.getAttribute('data-lang') + ";" +
+                        "path=" + /*[[${#httpServletRequest.contextPath}]]*/ "" + ";" +
+                        "max-age=" + (30 * 24 * 60 * 60);
+
+                    location.reload();
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div th:fragment="header">
+        <h1 th:text="${@site.title}">사이트 제목</h1>
+        <div id="languages">
+            <div th:if="${lang == 'en'}">
+                <a href="#" data-lang="ko">KO</a>
+                <a href="#" class="active" data-lang="en">EN</a>
+            </div>
+            <div th:if="${lang != 'en'}">
+                <a href="#" data-lang="ko" class="active">KO</a>
+                <a href="#" data-lang="en">EN</a>
+            </div>
+        </div>
+        <ul>
+            <li th:if="${not #authentication.authenticated}">
+                <a th:href="@{/user/login}">로그인</a>
+            </li>
+            <li th:if="${not #authentication.authenticated}">
+                <a th:href="@{/user/join}">회원가입</a>
+            </li>
+            <li th:if="${#authentication.authenticated}">
+                <a th:href="@{/user/update}">회원정보수정</a>
+            </li>
+            <li th:if="${#authentication.authenticated}">
+                <a th:href="@{/user/logout}">로그아웃</a>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>

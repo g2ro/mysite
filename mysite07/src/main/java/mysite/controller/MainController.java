@@ -25,7 +25,7 @@ public class MainController {
 //		SiteVo vo = applicationContext.getBean(SiteVo.class);
 //		System.out.println(vo);
 
-		return "main/index";
+		return "th/main/index";
 	} // MVC -> View Resolver 방식
 	
 	@ResponseBody

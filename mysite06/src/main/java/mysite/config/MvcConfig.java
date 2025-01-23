@@ -110,17 +110,17 @@ public class MvcConfig implements WebMvcConfigurer{
 	}
 	
 	// Interceptors 스프링 부트에선 지원 안해주기 때문에 따로 작성해 주어야한다.
-	@Bean
-	public HandlerInterceptor siteInterceptor() {
-		return new SiteInterceptor();
-	}
+//	@Bean
+//	public HandlerInterceptor siteInterceptor() {
+//		return new SiteInterceptor();
+//	}
 	
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		registry
-			.addInterceptor(siteInterceptor())
-			.addPathPatterns("/**")
-			.excludePathPatterns("/assets/**");
-	}
+//	@Override
+//	public void addInterceptors(InterceptorRegistry registry) {
+//		registry
+//			.addInterceptor(siteInterceptor())
+//			.addPathPatterns("/**")
+//			.excludePathPatterns("/assets/**");
+//	}
 	
 }

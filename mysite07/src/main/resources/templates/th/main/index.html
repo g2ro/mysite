@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mysite</title>
+    <link th:href="@{/assets/css/main.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <div id="container">
+        <!-- Header include -->
+        <div th:insert="~{th/includes/header :: header}"></div>
+
+        <div id="wrapper">
+            <div id="content">
+                <div id="site-introduction">
+                    <!-- Profile Image with fallback -->
+                    <img id="profile" 
+                         th:src="${@site.profile}" 
+                         alt="Profile Image">
+
+                    <!-- Welcome Text with fallback -->
+                    <h2 th:text="${@site.welcom}">Welcome Text</h2>
+
+                    <!-- Description with line breaks and fallback -->
+                    <p>
+                        <span th:utext="${#strings.replace(@site.description, '\n', '<br>')}"></span>
+                        <br>
+                        <a th:href="@{/guestbook}">방명록</a>에 글 남기기
+                        <br>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation include -->
+        <div th:insert="~{th/includes/navigation :: navigation}"></div>
+
+        <!-- Footer include -->
+        <div th:insert="~{th/includes/footer :: footer}"></div>
+    </div>
+</body>
+</html>

@@ -8,6 +8,16 @@ spring:
          enabled: true
       livereload:
          enabled: true
+   spring:
+      thymeleaf:
+         check-template-location: true
+         model: HTML
+         prefix: classpath:templates/
+         suffix: .html
+         encoding: UTF-8
+         view-names: th/*
+         cache: false
+
    # whether bean definition overriding
    main:
       allow-bean-definition-overriding: true
